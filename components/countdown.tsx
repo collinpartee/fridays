@@ -8,7 +8,7 @@ import DashboardData from '../models/DashboardData';
 const H6 = styled('h6')({
   fontSize: '1.25rem',
   fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-  fontWeight: '400',
+  fontWeight: 'lighter',
   lineHeight: '1.6',
   letterSpacing: '0.0075em',
   margin: '0'
