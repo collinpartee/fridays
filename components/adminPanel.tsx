@@ -1,12 +1,14 @@
 import React, { useRef } from 'react';
 import { styled } from '@material-ui/core/styles';
-import { Box, Typography, Button } from '@material-ui/core';
+import { Box, Typography, Button, TextField, Chip } from '@material-ui/core';
+import ChipInput from "material-ui-chip-input";
 import { SubData, Subreddits } from '../models/SubData';
 import { Post } from './post';
 import CustomModal from './modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { AppAdminData } from '../pages';
+import * as cookie from 'cookie-cutter';
 
 
 const Container = styled(Box)({
@@ -15,40 +17,33 @@ const Container = styled(Box)({
    flexDirection: 'column'
 });
 
-const Menu = (data: AppAdminData) => (
-<div>
-  Menu stifff - 
-  { Object.keys(data).map( (key, i) => {
-    console.log(key)
-    return (
-      <Box key={i} display='flex'>
-        <div>{key} :</div>
-        {data[key].split(',').map( (value, j) => {
-          return (
-            <div>{value}</div>
-          );
-        })}
-      </Box>
-    )})}
-</div>
-);
+const InputRow = styled(Box)({
+  padding: '10px 0',
+  // border: '1px solid'
+});
+
 
 function Menu2(data) {
 
+  const addToList = function(key: string, value: string) {
+    console.log(key, value)
+    data[key].push(value);
+  }
+
   return (
-    <div>
+    <div style={{width: '100%', display: 'flex', flexDirection: 'row'}}>
+    <div style={{width: '100%', display: 'flex', flexFlow: 'wrap'}}>
   { Object.keys(data).map( (key, i) => {
-    console.log(key)
-    return (
-      <Box key={i} display='flex'>
-        <div>{key} :</div>
-        {data[key].split(',').map( (value, j) => {
-          return (
-            <div key={j}>{value}</div>
-          );
-        })}
-      </Box>
-    )})}
+      return (
+        <InputRow key={i} display='flex' alignItems='baseline' style={{width: i%2 !== 0 ? '20%' :'70%'}}>
+          <div>{key} :</div>
+          { data[key].map( (value, i) => <Chip style={{margin: '0 8px'}} onDelete={() => {}} key={i} size="small" label={value} />)}
+          <TextField label="newValue" onBlur={(e) => {addToList(key, e.target.value)}} />
+        </InputRow>
+      )
+    })}
+</div>
+    <Button>Save</Button>
 </div>
   )
 }
@@ -57,9 +52,9 @@ type AdminPanelProps = {
   data: AppAdminData
  };
 
-export default function AdminPanel({data}: AdminPanelProps) {
-  const [loggedIn, setLoginStatus] = React.useState(false);
-console.log(data)
+export default function AdminPanel({data}: AdminPanelProps) { //TODO: make into a class component...maybe even finally use CONTEXT!!!!!
+  const [loggedIn, setLoginStatus] = React.useState(true); //TODO: change to false when your done dev'ing
+
   const handleChange = () => {
     setLoginStatus((prev) => !prev);
   };
