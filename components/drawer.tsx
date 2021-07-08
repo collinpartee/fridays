@@ -80,7 +80,8 @@ export default class Drawer extends React.Component<MyProps, MyState> {
 
   componentDidMount() {
     var defaultValues = process.env.NEXT_PUBLIC_SUBREDDIT_NAMES.split(',');
-    this.setState({topics: this.props.appAdminData && this.props.appAdminData.subredditList.split(',') || defaultValues})
+    console.log('defaultValues', defaultValues)
+    this.setState({topics: this.props.appAdminData && this.props.appAdminData.subredditList || defaultValues})
    }
 
   componentWillUnmount() { }

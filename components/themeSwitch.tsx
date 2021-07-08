@@ -11,15 +11,16 @@ type ThemeSwitchProps = {
 
 
 export function ThemeSwitch ({onChange, color}: ThemeSwitchProps) {
-
+  // TODO: having a weird issue where (i think) material ui
+  // is converting my hex value to an rgb value. problem
+  // happens because all hex values cannot be calculated
+  // to rgb values...
   const [checked, setChecked] = React.useState(false);
 
   const handleChange = () => {
     setChecked((prev) => !prev);
     onChange(checked);
   };
-
-console.log('color', color)
 
   return (
     <div style={{position: 'absolute', top: 0, right: 20, display: 'flex', alignItems: 'center'}}>
