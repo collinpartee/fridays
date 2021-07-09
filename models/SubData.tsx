@@ -1,12 +1,3 @@
-export interface SubData {
-  title: string;
-      thumbnail: string; 
-      source: string;
-      url: string;
-      link: string;
-      permalink: string;
-}
-
 export class Subreddits {
       subList: SubData[];
 

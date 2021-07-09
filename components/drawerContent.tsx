@@ -1,14 +1,11 @@
 import React, { useRef } from 'react';
 import { styled } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
-import { SubData, Subreddits } from '../models/SubData';
+import { Subreddits } from '../models/SubData';
 import { Post } from './post';
 import CustomModal from './modal';
 import AdminPanel from './adminPanel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { AppAdminData } from '../pages';
-
 
 const Container = styled('div')({
   overflow: 'scroll',
@@ -43,10 +40,9 @@ const RightScrollButton = styled('div')({
 type DrawerContentProps = {
   data: Subreddits;
   visible: boolean;
-  appAdminData: AppAdminData;
 };
 
-export default function DrawerContent({ data, visible, appAdminData }: DrawerContentProps) {
+export default function DrawerContent({ data, visible }: DrawerContentProps) {
   const [open, setOpen] = React.useState(false);
   const [selectedPost, setSelectedPost] = React.useState(null);
   const scrollArea = useRef(null);
@@ -78,7 +74,7 @@ export default function DrawerContent({ data, visible, appAdminData }: DrawerCon
 
   return (
     <Container style={{ height: visible ? '0' : '12em' }} ref={scrollArea}>
-      {!data && <AdminPanel data={appAdminData}/>}
+      {!data && <AdminPanel/>}
 
       {data && <LeftScrollButton onClick={() => sideScroll(scrollArea.current, 'left')}> <FontAwesomeIcon icon={faAngleLeft}></FontAwesomeIcon> </LeftScrollButton>}
 

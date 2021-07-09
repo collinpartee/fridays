@@ -4,8 +4,7 @@ import posed from 'react-pose';
 import Services from '../utils/services';
 import { Subreddits } from '../models/SubData';
 import DrawerContent from './drawerContent';
-import Chip from '@material-ui/core/Chip';
-import { AppAdminData } from '../pages';
+import { AppAdminContext } from '../context/appAdminContext';
 
 const SlidingDrawer = posed.div({
   hidden: { 
@@ -32,7 +31,8 @@ const DrawerContainer = styled('div')(props => ({
   position: 'absolute',
   width: '98%',
   zIndex: 5,
-  left: 15
+  left: 15,
+  backgroundColor: 'inherit'
 }));
 
 const Close = styled('div')(props => ({
@@ -108,7 +108,8 @@ export default class Drawer extends React.Component<MyProps, MyState> {
   }
 
   render() {
-
+    let { adminData } = this.context;
+    console.log('context ', adminData)
     return (
       <DrawerContainer style={{bottom: !this.state.isVisible ? '4%' : '0'}}>
       <SlidingDrawer pose={!this.state.isVisible ? 'visible' : 'hidden'}>
@@ -117,15 +118,17 @@ export default class Drawer extends React.Component<MyProps, MyState> {
                 open me
               </DrawerButton>
             {
-              this.state.topics && this.state.topics.map((subName, i) => {
+              adminData.subredditList && adminData.subredditList.map((subName, i) => {
                 return ( <AniTab key={i}><DrawerButton onClick={() => this.getSubData(subName)} style={{backgroundColor:this.getBackgroundColor(subName), color: this.getTextColor(subName)}}>{subName}</DrawerButton> </AniTab>)})
             }
             { this.state.isVisible && <Close onClick={() => this.toggleDrawer(false)}>Close</Close> }
           </ButtonBar>
           
-          <DrawerContent appAdminData={this.props.appAdminData} visible={!this.state.isVisible} data={this.state.subData} />
+          <DrawerContent visible={!this.state.isVisible} data={this.state.subData} />
       </SlidingDrawer>
       </DrawerContainer>
     );
   }
 }
+
+Drawer.contextType = AppAdminContext;
