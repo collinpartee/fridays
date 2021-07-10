@@ -1,7 +1,6 @@
 import React from 'react';
 import { styled } from '@material-ui/core/styles';
 import { Slide, Backdrop, Fade, Paper, Modal, Typography } from '@material-ui/core';
-import { SubData } from '../models/SubData';
 
 type ModalProps = {
   data: SubData;
