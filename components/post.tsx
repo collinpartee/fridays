@@ -1,7 +1,6 @@
 import React from 'react';
 import { styled } from '@material-ui/core/styles';
 import { Button, Paper } from '@material-ui/core';
-import { SubData } from '../models/SubData';
 
 
 const Container = styled(Paper)({
