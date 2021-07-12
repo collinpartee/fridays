@@ -1,12 +1,14 @@
 //TODO: put all types in here. can use them globally in the app w/o importing.
 interface SubData {
     title: string;
-        thumbnail: string; 
-        source: string;
-        url: string;
-        link: string;
-        permalink: string;
-  }
+    thumbnail: string;
+    source: string;
+    url: string;
+    link: string;
+    permalink: string;
+    videoSrc: string;
+    type: string;
+}
 
 type ContextType = {
     adminData: AppAdminData

@@ -51,10 +51,16 @@ export default function AdminPanel(props: AdminPanelProps) { //TODO: make into a
     if(arrayLength >= 7)
       return;
 
+    var value = '';
+
+    function updateValue(e) {
+      value = e;
+    }
+
     return (
       <React.Fragment>
-      <TextField label="newValue" onBlur={(e) => { onBlur(key, e.target.value) }} />
-      <IconButton aria-label="delete">
+      <TextField label="" onBlur={(e) => { updateValue(e.target.value) }} style={{width: '80px'}}/>
+      <IconButton aria-label="delete" onClick={() => onBlur(key, value)}>
         <CheckIcon />
       </IconButton>
       </React.Fragment>
@@ -63,15 +69,28 @@ export default function AdminPanel(props: AdminPanelProps) { //TODO: make into a
   const SmallOne = (key: string, onBlur: Function, arrayLength: number) => {
     if(arrayLength > 0)
       return;
-      
+
+      var value = '';
+
+      function updateValue(e) {
+        value = e;
+      }
+
     return (
       <React.Fragment>
-        <TextField label="newValue" onBlur={(e) => { onBlur(key, e.target.value) }} />
-        <IconButton aria-label="delete">
+        <TextField label="" onBlur={(e) => { updateValue(e.target.value) }} />
+        <IconButton aria-label="delete" onClick={() => onBlur(key, value)}>
           <CheckIcon />
         </IconButton>
       </React.Fragment>
     )
+  }
+
+  const formatValue = (key: string, value: string): string => {
+    if(key == 'subredditList')
+      return 'r/'+value;
+
+    return value;
   }
 
   return (
@@ -90,7 +109,7 @@ export default function AdminPanel(props: AdminPanelProps) { //TODO: make into a
           return (
             <InputRow key={i} display='flex' alignItems='baseline' style={{ width: i % 2 !== 0 ? '20%' : '70%' }}>
               <div>{key} :</div>
-              { adminData[key].map((value, j) => <Chip style={{ margin: '0 4px' }} onDelete={() => removeFromList(key, value, i)} key={j} size="small" label={value} />)}
+              { adminData[key].map((value, j) => <Chip style={{ margin: '0 4px' }} onDelete={() => removeFromList(key, value, i)} key={j} size="small" label={formatValue(key, value)} />)}
               
               { i % 2 !== 0 ? SmallOne(key, addToList, adminData[key].length) : BigOne(key, addToList, adminData[key].length)}
               

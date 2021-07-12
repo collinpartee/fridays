@@ -82,8 +82,8 @@ export default class App extends React.Component<MyProps, MyState> {
           </Box>
           {this.props.image.loading
             ? <Skeleton width={150} animation="wave" variant="rect" />
-            : <div> Photo by,
-                <a href={this.props.image.value.source}> {this.props.image.value.attribution}</a> found on
+            : <div> Photo by
+                <a href={this.props.image.value.source}> {this.props.image.value.attribution},</a> found on
                 <a href="http://unsplash.com"> Unsplash.com</a></div>}
         </Rail>
       </Container>

@@ -60,7 +60,6 @@ interface MyProps {
 
 interface MyState {
   isVisible: boolean;
-  topics: string[];
   selectedSub: string;
   subData: Subreddits,
   loading: boolean
@@ -71,18 +70,13 @@ export default class Drawer extends React.Component<MyProps, MyState> {
     super(props);
     this.state = {
       isVisible: false,
-      topics: [],
       selectedSub: null,
       subData: null,
       loading: true
     };
   }
 
-  componentDidMount() {
-    var defaultValues = process.env.NEXT_PUBLIC_SUBREDDIT_NAMES.split(',');
-    console.log('defaultValues', defaultValues)
-    this.setState({topics: this.props.appAdminData && this.props.appAdminData.subredditList || defaultValues})
-   }
+  componentDidMount() { }
 
   componentWillUnmount() { }
 
@@ -109,7 +103,6 @@ export default class Drawer extends React.Component<MyProps, MyState> {
 
   render() {
     let { adminData } = this.context;
-    console.log('context ', adminData)
     return (
       <DrawerContainer style={{bottom: !this.state.isVisible ? '4%' : '0'}}>
       <SlidingDrawer pose={!this.state.isVisible ? 'visible' : 'hidden'}>
