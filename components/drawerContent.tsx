@@ -48,7 +48,7 @@ export default function DrawerContent({ data, visible }: DrawerContentProps) {
   const scrollArea = useRef(null);
   
   const handleOpen = (e: boolean, data: SubData) => {
-    console.log(e, data)
+    // console.log(e, data)
     setOpen(true);
     setSelectedPost(data);
   };

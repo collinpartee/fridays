@@ -17,10 +17,9 @@ const InputRow = styled(Box)({
   // border: '1px solid'
 });
 
-type AdminPanelProps = {
-};
+type AdminPanelProps = { };
 
-export default function AdminPanel(props: AdminPanelProps) { //TODO: make into a class component...maybe even finally use CONTEXT!!!!!
+export default function AdminPanel(props: AdminPanelProps) {
 
   const { adminData, updateData } = React.useContext(AppAdminContext) as ContextType
 
@@ -34,7 +33,7 @@ export default function AdminPanel(props: AdminPanelProps) { //TODO: make into a
     var _adminData: AppAdminData = Object.assign({}, adminData)
     var indexOfValue = _adminData[key].indexOf(value)
     _adminData[key].splice(indexOfValue, 1)
-    console.log('removeFromList', _adminData);
+    // console.log('removeFromList', _adminData);
     updateData(_adminData)
   }
   
@@ -44,7 +43,7 @@ export default function AdminPanel(props: AdminPanelProps) { //TODO: make into a
     var _adminData: AppAdminData = Object.assign({}, adminData)
 
     _adminData[key].push(value)
-    console.log('addToList', _adminData);
+    // console.log('addToList', _adminData);
     updateData(_adminData)
   }
   const BigOne = (key: string, onBlur: Function, arrayLength: number) => {

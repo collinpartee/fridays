@@ -9,7 +9,7 @@ type CountProviderProps = { children: React.ReactNode };
 export default function TodoProvider({ children }: CountProviderProps) {
     const [cookies, setCookie] = useCookies(['adminData']);
     var defaultState = cookies.name;
-    console.log('cookies before update', defaultState)
+    // console.log('cookies before update', defaultState)
     
     
     const [adminData, setAdminData] = React.useState<AppAdminData>({
@@ -27,7 +27,7 @@ export default function TodoProvider({ children }: CountProviderProps) {
     const updateData = (adminData: AppAdminData) => {
         setAdminData(adminData)
         setCookie('name', adminData, { path: '/' });
-        console.log('cookies after update', cookies.name)
+        // console.log('cookies after update', cookies.name)
     }
 
     const deleteData = (key: string, value: string) => {

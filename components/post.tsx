@@ -10,6 +10,7 @@ const Container = styled(Paper)({
   backgroundSize: 'cover',
   backgroundPosition: 'center'
 });
+
 const Title = styled('p')({
   backgroundColor: 'rgba(0,0,0,0.7)',
   color: 'white',
@@ -29,15 +30,16 @@ type PostProps = {
   openModal: Function;
 };
 
-
 export const Post = ({ data, openModal }: PostProps) => (
-  <div style={{ height: '85%', marginTop: '1%', margin: '0 8px'}}>
+  <div style={{ height: '85%', marginTop: '1%', margin: '0 8px' }}>
     <Title>{data.title}</Title>
-    <Container elevation={2} onClick={() => openModal(true, data)} style={{backgroundImage: `url(${data.thumbnail})`}}>
-      
+    <Container elevation={2} onClick={() => openModal(true, data)} style={{ backgroundImage: `url(${data.thumbnail})` }}>
+
     </Container>
     <div>
-         <Button size="small">Permalink</Button>
-         <Button size="small">Reddit</Button>
-      </div>
-      </div>);
+      <Button size="small">
+        <a href="www.google.com"> Permalink </a>
+      </Button>
+      <Button size="small">Reddit</Button>
+    </div>
+  </div>);
