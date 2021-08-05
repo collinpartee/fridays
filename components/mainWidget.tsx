@@ -8,8 +8,7 @@ import { GetStaticProps } from 'next';
 import Stonk from '../models/Stonks';
 import { Countdown } from './countdown';
 import DashboardData from '../models/DashboardData';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSync } from '@fortawesome/free-solid-svg-icons';
+import SyncIcon from '@material-ui/icons/Sync';
 
 const Rail = styled(Box)({
   display: 'flex',
@@ -78,7 +77,7 @@ export default class App extends React.Component<MyProps, MyState> {
         <Rail>
           <Box display='flex' alignItems='center'>
           <DashboardText loading={this.state.randomFact.loading} text={formatTickerString(this.props.stocks)} />
-          <FontAwesomeIcon style={{marginLeft: '16px', width: '11px'}} icon={faSync} spin /> {/* TODO: Make this work */}
+          {/* <SyncIcon style={{marginLeft: '16px', width: '11px'}} /> TODO: Make this work */}
           </Box>
           {this.props.image.loading
             ? <Skeleton width={150} animation="wave" variant="rect" />

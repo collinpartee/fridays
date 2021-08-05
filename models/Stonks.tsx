@@ -16,7 +16,6 @@ interface News {
    
      constructor(request: any) {
        var data = request.data;
-       // console.log(data)
        this.name = data.shortName;
        this.ticker = data.ticker;
        this.price = data.currentPrice;

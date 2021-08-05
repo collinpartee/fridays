@@ -11,6 +11,10 @@ const Container = styled(Paper)({
   backgroundPosition: 'center'
 });
 
+const Link = styled('a')({
+  textDecoration: 'none',
+});
+
 const Title = styled('p')({
   backgroundColor: 'rgba(0,0,0,0.7)',
   color: 'white',
@@ -28,9 +32,11 @@ const Title = styled('p')({
 type PostProps = {
   data: SubData;
   openModal: Function;
+  color: string;
+  backgroundColor: string;
 };
 
-export const Post = ({ data, openModal }: PostProps) => (
+export const Post = ({ color, backgroundColor, data, openModal }: PostProps) => (
   <div style={{ height: '85%', marginTop: '1%', margin: '0 8px' }}>
     <Title>{data.title}</Title>
     <Container elevation={2} onClick={() => openModal(true, data)} style={{ backgroundImage: `url(${data.thumbnail})` }}>
@@ -38,8 +44,10 @@ export const Post = ({ data, openModal }: PostProps) => (
     </Container>
     <div>
       <Button size="small">
-        <a href="www.google.com"> Permalink </a>
+        <Link style={{color: color}} target="_blank" href={data.url}> Permalink </Link>
       </Button>
-      <Button size="small">Reddit</Button>
+      <Button size="small">
+      <Link style={{color: color}} target="_blank" href={data.permalink}> Reddit </Link>
+      </Button>
     </div>
   </div>);

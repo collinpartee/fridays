@@ -55,7 +55,6 @@ const ButtonBar = styled(Box)(props => ({
 interface MyProps { 
   backgroundColor: string;
   color: string;
-  appAdminData: AppAdminData;
 };
 
 interface MyState {
@@ -103,6 +102,7 @@ export default class Drawer extends React.Component<MyProps, MyState> {
 
   render() {
     let { adminData } = this.context;
+
     return (
       <DrawerContainer style={{bottom: !this.state.isVisible ? '4%' : '0'}}>
       <SlidingDrawer pose={!this.state.isVisible ? 'visible' : 'hidden'}>
@@ -117,7 +117,7 @@ export default class Drawer extends React.Component<MyProps, MyState> {
             { this.state.isVisible && <Close onClick={() => this.toggleDrawer(false)}>Close</Close> }
           </ButtonBar>
           
-          <DrawerContent visible={!this.state.isVisible} data={this.state.subData} />
+          <DrawerContent backgroundColor={this.props.backgroundColor} color={this.props.color} visible={!this.state.isVisible} data={this.state.subData} />
       </SlidingDrawer>
       </DrawerContainer>
     );

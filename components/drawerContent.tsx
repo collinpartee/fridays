@@ -4,8 +4,7 @@ import { Subreddits } from '../models/SubData';
 import { Post } from './post';
 import CustomModal from './modal';
 import AdminPanel from './adminPanel';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { NavigateNext, NavigateBefore } from '@material-ui/icons';
 
 const Container = styled('div')({
   overflow: 'scroll',
@@ -40,9 +39,11 @@ const RightScrollButton = styled('div')({
 type DrawerContentProps = {
   data: Subreddits;
   visible: boolean;
+  color: string;
+  backgroundColor: string;
 };
 
-export default function DrawerContent({ data, visible }: DrawerContentProps) {
+export default function DrawerContent({ color, backgroundColor, data, visible }: DrawerContentProps) {
   const [open, setOpen] = React.useState(false);
   const [selectedPost, setSelectedPost] = React.useState(null);
   const scrollArea = useRef(null);
@@ -71,16 +72,19 @@ export default function DrawerContent({ data, visible }: DrawerContentProps) {
       }
     }, 50);
   }
+  if(data)
+    console.log(data.subList)
 
+  var colors={text: color, backgroundColor: backgroundColor}
   return (
     <Container style={{ height: visible ? '0' : '12em' }} ref={scrollArea}>
       {!data && <AdminPanel/>}
 
-      {data && <LeftScrollButton onClick={() => sideScroll(scrollArea.current, 'left')}> <FontAwesomeIcon icon={faAngleLeft}></FontAwesomeIcon> </LeftScrollButton>}
+      {data && <LeftScrollButton onClick={() => sideScroll(scrollArea.current, 'left')}><NavigateBefore fontSize='large' style={{color: 'black'}} /> </LeftScrollButton>}
 
-      { data && data.subList.map((sub, i) => <Post openModal={handleOpen} key={i} data={sub} />)}
+      { data && data.subList.map((sub, i) => <Post color={color} backgroundColor={backgroundColor} openModal={handleOpen} key={i} data={sub} />)}
 
-      {data && <RightScrollButton onClick={() => sideScroll(scrollArea.current, 'right')}> <FontAwesomeIcon icon={faAngleRight}></FontAwesomeIcon> </RightScrollButton>}
+      {data && <RightScrollButton onClick={() => sideScroll(scrollArea.current, 'right')}> <NavigateNext fontSize='large' style={{color: 'black'}} /> </RightScrollButton>}
 
       { selectedPost && <CustomModal data={selectedPost} visible={open} toggleOpen={handleClose} /> }
     </Container>

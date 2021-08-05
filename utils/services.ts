@@ -27,7 +27,7 @@ async function GetStonks(tickers: string[]): Promise<Stonk[]> {
     result.push(stock);
     
   }
-  // console.log(result)
+
   return result;
 
 };

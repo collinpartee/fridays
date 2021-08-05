@@ -30,22 +30,31 @@ export default function AdminPanel(props: AdminPanelProps) {
   };
 
   const removeFromList = (key: string, value: string, position: number) => { //TODO: position to see if its imageInspiration or countdownDate
-    var _adminData: AppAdminData = Object.assign({}, adminData)
-    var indexOfValue = _adminData[key].indexOf(value)
-    _adminData[key].splice(indexOfValue, 1)
-    // console.log('removeFromList', _adminData);
-    updateData(_adminData)
+    if(position % 2) // odd item. for us its the 1 item max arrays.
+    {
+      adminData[key] = []
+      console.log('removeFromList', adminData.countdownDate.toString());
+      updateData(adminData)
+    } else {
+        var indexOfValue = adminData[key].indexOf(value)
+        adminData[key].splice(indexOfValue, 1)
+        console.log('removeFromList', adminData);
+        updateData(adminData)
+    }
   }
   
   const addToList = (key: string, value: string) => {
     if (value.length == 0)
       return
+    
+    console.log(adminData)
     var _adminData: AppAdminData = Object.assign({}, adminData)
 
     _adminData[key].push(value)
     // console.log('addToList', _adminData);
     updateData(_adminData)
   }
+
   const BigOne = (key: string, onBlur: Function, arrayLength: number) => {
     if(arrayLength >= 7)
       return;
@@ -65,6 +74,7 @@ export default function AdminPanel(props: AdminPanelProps) {
       </React.Fragment>
     )
   }
+
   const SmallOne = (key: string, onBlur: Function, arrayLength: number) => {
     if(arrayLength > 0)
       return;
@@ -88,6 +98,9 @@ export default function AdminPanel(props: AdminPanelProps) {
   const formatValue = (key: string, value: string): string => {
     if(key == 'subredditList')
       return 'r/'+value;
+
+    if(key == 'tickerList')
+      return value.toUpperCase();
 
     return value;
   }

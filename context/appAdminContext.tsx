@@ -8,26 +8,20 @@ type CountProviderProps = { children: React.ReactNode };
 
 export default function TodoProvider({ children }: CountProviderProps) {
     const [cookies, setCookie] = useCookies(['adminData']);
-    var defaultState = cookies.name;
-    // console.log('cookies before update', defaultState)
-    
+    console.log(cookies.adminData)
     
     const [adminData, setAdminData] = React.useState<AppAdminData>({
-        subredditList: process.env.NEXT_PUBLIC_SUBREDDIT_NAMES.split(','),
-        countdownDate: process.env.NEXT_PUBLIC_COUNTDOWN_DATE.split(','),
-        tickerList: process.env.NEXT_PUBLIC_TICKER_SYMBOLS.split(','),
-        imageInspiration: process.env.NEXT_PUBLIC_IMAGE_SUBJECT.split(','),
+        ...cookies.adminData
     });
 
-    React.useEffect(() => {
-        // Update the document title using the browser API
-        Object.assign(adminData, cookies.name)
-      });
+    // React.useEffect(() => {
+    //     Object.assign(adminData, cookies.name)
+    //   });
     
     const updateData = (adminData: AppAdminData) => {
         setAdminData(adminData)
-        setCookie('name', adminData, { path: '/' });
-        // console.log('cookies after update', cookies.name)
+        setCookie('adminData', adminData, { path: '/' });
+        console.log('cookies after update', cookies.name)
     }
 
     const deleteData = (key: string, value: string) => {

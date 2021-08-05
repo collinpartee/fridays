@@ -3,7 +3,6 @@ export class Subreddits {
 
   constructor(data: any) {
     this.subList = data.data.data.children.map( d => {
-      // console.log(d)
       var sub: SubData = {
         title: d.data.title,
         thumbnail : d.data.thumbnail,
