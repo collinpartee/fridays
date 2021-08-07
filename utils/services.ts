@@ -61,18 +61,27 @@ async function GetRedditFeed(subredditName: string): Promise<Subreddits>{
   return new Subreddits(data);
 };
 
-function GetCountdown(day: string = 'friday'): number {
+function GetCountdown(day: string): string {
   var daysTill = 0;
-  if(day =='friday') {
-    const FRIDAY = 5,
-    TODAY = new Date();
+  console.log('countdown Day: ', day)
+  const TODAY = new Date();
 
-  daysTill =  FRIDAY - TODAY.getDay() > -1 ?
-    FRIDAY - TODAY.getDay() :
-    TODAY.getDay();
-  }
+  const customDay = day.indexOf('-') > -1
+  if(customDay) {
+    var customDate = new Date(day);
+// To calculate the time difference of two dates
+var Difference_In_Time = customDate.getTime() - TODAY.getTime();
   
-  return daysTill;
+// To calculate the no. of days between two dates
+var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    return Math.ceil(Difference_In_Days).toString()
+  }
+  var dayOweek = TODAY.getDay();
+  let dayNum = parseInt(day)
+
+  daysTill =  dayNum < dayOweek ? 7 - dayOweek + dayNum : dayNum - dayOweek ;
+  
+  return daysTill.toString();
 };
 
 const services = {

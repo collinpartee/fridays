@@ -2,7 +2,6 @@ import React from 'react';
 import { styled } from '@material-ui/core/styles';
 import { Box, Typography } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import DashboardData from '../models/DashboardData';
 
 
 const H6 = styled('h6')({
@@ -15,29 +14,40 @@ const H6 = styled('h6')({
 });
 
 type CountdownProps = {
-  data: DashboardData,
+  date: string,
+  label: string,
   textColor: string
 };
 
+var loading = true;
 
-export const Countdown = ({ data, textColor }: CountdownProps) => (
-  <Box display="flex" alignItems='center'>
-    {data.loading
-      ? <Skeleton width={210} height={72} animation="wave" variant="rect" />
-      : <>
-        <Typography variant="h2">
-          {data.value}
-        </Typography>
-        <Box display="flex" flexDirection="column" alignItems='center' padding='0 8px'>
-          <H6>
-            days
-        </H6>
-          <H6>
-            till
-        </H6>
-        </Box>
-        <Typography variant="h2">
-          friday
-        </Typography>
-      </>}
-  </Box>);
+setTimeout(() => {
+  loading = false
+}, 2000);
+
+
+export const Countdown = ({ date, label, textColor }: CountdownProps) => {
+  if(!label)
+    return null
+  return  (
+    <Box display="flex" alignItems='center'>
+      {loading
+        ? <Skeleton width={210} height={72} animation="wave" variant="rect" />
+        : <>
+          <Typography variant="h2">
+            {date}
+          </Typography>
+          <Box display="flex" flexDirection="column" alignItems='center' padding='0 8px'>
+            <H6>
+              {date != '1' ? 'days' : 'day'}
+          </H6>
+            <H6>
+              till
+          </H6>
+          </Box>
+          <Typography variant="h2">
+            {label}
+          </Typography>
+        </>}
+    </Box>);
+}

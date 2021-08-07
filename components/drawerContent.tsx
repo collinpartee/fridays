@@ -8,7 +8,6 @@ import { NavigateNext, NavigateBefore } from '@material-ui/icons';
 
 const Container = styled('div')({
   overflow: 'scroll',
-  width: '90%',
   margin: '0 auto',
   display:"flex",
    alignItems: 'center'

@@ -18,7 +18,8 @@ type ContextType = {
 
 type AppAdminData = {
     subredditList: string[],
-    countdownDate: string[], // array of 1 item
+    countdownLabel: string[], // array of 1 item
     tickerList: string[],
     imageInspiration: string[], // array of 1 item
+    countdownDate: string[], // array of 1 item
 }

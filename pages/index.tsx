@@ -51,6 +51,12 @@ Home.getInitialProps = async (ctx) => {
   adminCookie = formatCookie(adminCookie)
   imageCookie = imageCookie ? JSON.parse(imageCookie) : imageCookie
 
+  if(!adminCookie) {
+    adminCookie = {
+      tickerList: ['CLOV'],
+      imageInspiration: ['country']
+    }
+  }
 
   var stockData = await Services.getStonks(adminCookie.tickerList);
 

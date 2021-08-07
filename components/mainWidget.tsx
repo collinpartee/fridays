@@ -4,11 +4,10 @@ import { Box, Container, styled } from '@material-ui/core';
 import { DashboardText } from './dashboardText';
 import Services from '../utils/services';
 import Clock from './clock';
-import { GetStaticProps } from 'next';
 import Stonk from '../models/Stonks';
 import { Countdown } from './countdown';
 import DashboardData from '../models/DashboardData';
-import SyncIcon from '@material-ui/icons/Sync';
+import { AppAdminContext } from '../context/appAdminContext';
 
 const Rail = styled(Box)({
   display: 'flex',
@@ -23,7 +22,8 @@ interface MyProps {
 };
 
 interface MyState {
-  countdownData: DashboardData;
+  countdownLabel: DashboardData;
+  countdownDate: DashboardData;
   randomFact: DashboardData;
 };
 
@@ -38,13 +38,15 @@ export default class App extends React.Component<MyProps, MyState> {
     super(props);
     this.state = {
       randomFact: new DashboardData(),
-      countdownData: new DashboardData(),
+      countdownDate: new DashboardData(),
+      countdownLabel: new DashboardData(),
     };
   }
 
   async componentDidMount() {
+    let { adminData } = this.context;
     await this.getRandomFact();
-    await this.getCountdown('friday');
+    // await this.getCountdown(adminData.countdownDate[0]);
   }
 
   componentWillUnmount() { }
@@ -55,18 +57,19 @@ export default class App extends React.Component<MyProps, MyState> {
     this.setState({ randomFact: randomFact });
   }
 
-  async getCountdown(day: string): Promise<void> {
-    var daysTill = await Services.getCountdown(day);
-    var countdownData: DashboardData = { value: daysTill, loading: false }
-    this.setState({ countdownData: countdownData });
-  }
+  // async getCountdown(day: string): Promise<void> {
+  //   var daysTill = await Services.getCountdown(day);
+  //   var countdownDate: DashboardData = { value: daysTill, loading: false }
+  //   this.setState({ countdownDate: countdownDate });
+  // }
 
   render() {
+    let { adminData } = this.context;
     return (
       <Container maxWidth="lg" style={{ padding: '4%' }}>
         <Rail alignItems='flex-end'>
           <DashboardText loading={this.state.randomFact.loading} text={this.state.randomFact.value} />
-          <Countdown data={this.state.countdownData} textColor={this.props.image.value.textColor} />
+          <Countdown label={adminData.countdownLabel} date={adminData.countdownDate[0]} textColor={this.props.image.value.textColor} />
         </Rail>
 
         <Box display="flex">
@@ -89,3 +92,5 @@ export default class App extends React.Component<MyProps, MyState> {
     );
   }
 }
+
+App.contextType = AppAdminContext;
