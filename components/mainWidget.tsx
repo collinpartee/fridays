@@ -72,10 +72,10 @@ export default class App extends React.Component<MyProps, MyState> {
           <Countdown label={adminData.countdownLabel} date={adminData.countdownDate[0]} textColor={this.props.image.value.textColor} />
         </Rail>
 
-        <Box display="flex">
+        <div style={{display: 'flex'}}>
           <Clock enabled={true} />
           <div style={{backgroundImage: `url(${this.props.image.value.uri})`, height: '60vh', width: '100%', backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
-        </Box>
+        </div>
 
         <Rail>
           <Box display='flex' alignItems='center'>

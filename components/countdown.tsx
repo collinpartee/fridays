@@ -21,9 +21,9 @@ type CountdownProps = {
 
 var loading = true;
 
-setTimeout(() => {
-  loading = false
-}, 2000);
+// setTimeout(() => {
+//   loading = false
+// }, 2000);
 
 
 export const Countdown = ({ date, label, textColor }: CountdownProps) => {
@@ -31,9 +31,9 @@ export const Countdown = ({ date, label, textColor }: CountdownProps) => {
     return null
   return  (
     <Box display="flex" alignItems='center'>
-      {loading
+      {/* {loading
         ? <Skeleton width={210} height={72} animation="wave" variant="rect" />
-        : <>
+        : <> */}
           <Typography variant="h2">
             {date}
           </Typography>
@@ -48,6 +48,6 @@ export const Countdown = ({ date, label, textColor }: CountdownProps) => {
           <Typography variant="h2">
             {label}
           </Typography>
-        </>}
+        {/* </>} */}
     </Box>);
 }

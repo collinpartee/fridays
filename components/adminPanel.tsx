@@ -210,7 +210,7 @@ export default function AdminPanel(props: AdminPanelProps) {
             return (
               <InputRow key={i} display='flex' alignItems='baseline' style={{ width: i % 2 !== 0 ? '30%' : '50%' }}>
                 <div style={{width: i % 2 !== 0 ? '35%' : '15%'}}>{key} :</div>
-                <div style={{display: adminData[key].length > 0 ? 'flex' : 'none', width: i % 2 !== 0 ? '65%' : '85%', flexWrap: 'wrap'}}>{ adminData[key].map((value, j) =><Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} key={j} size="small" label={formatValue(key, value)} />)}</div>
+                <div style={{display: adminData[key].length > 0 ? 'flex' : 'none', width: i % 2 !== 0 ? 'auto' : 'auto', flexWrap: 'wrap'}}>{ adminData[key].map((value, j) =><Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} key={j} size="small" label={formatValue(key, value)} />)}</div>
                               
                 {SwitchOnDataType(key, addToList, adminData[key].length)}
   
