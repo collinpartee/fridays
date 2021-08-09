@@ -4,10 +4,6 @@ import { styled } from '@material-ui/core/styles';
 import moment from 'moment';
 
 const ClockContainer = styled('div')({
-  writingMode: 'vertical-rl',
-  textOrientation: 'mixed',
-  transform: 'rotate(180deg)',
-  paddingLeft: '1%'
 });
 
 interface MyProps {
@@ -42,7 +38,7 @@ export default class Clock extends React.Component<MyProps, MyState> {
   render() {
     return (
       <ClockContainer>
-        {this.state.time == '' || !this.props.enabled ? <Skeleton width={15} height={200} animation="wave" variant="rect" /> : this.state.time}
+        {this.state.time == '' || !this.props.enabled ? <Skeleton width={150} animation="wave" variant="rect" /> : this.state.time}
       </ClockContainer>
     );
   }

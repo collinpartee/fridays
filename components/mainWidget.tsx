@@ -15,6 +15,13 @@ const Rail = styled(Box)({
   marginLeft: '3%',
   padding: '1% 0',
 });
+  const ImageCredit = styled('div')({
+    writingMode: 'vertical-rl',
+    textOrientation: 'mixed',
+    transform: 'rotate(180deg)',
+    paddingLeft: '1%',
+    fontSize: '0.8rem'
+  });
 
 interface MyProps {
   stocks: Stonk[];
@@ -73,20 +80,21 @@ export default class App extends React.Component<MyProps, MyState> {
         </Rail>
 
         <div style={{display: 'flex'}}>
-          <Clock enabled={true} />
+        {this.props.image.loading
+          ? <Skeleton width={15} height={200} animation="wave" variant="rect" />
+          : <ImageCredit> Photo by
+              <a href={this.props.image.value.source}> {this.props.image.value.attribution},</a> found on
+              <a href="http://unsplash.com"> Unsplash.com</a></ImageCredit>}
           <div style={{backgroundImage: `url(${this.props.image.value.uri})`, height: '60vh', width: '100%', backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
         </div>
 
         <Rail>
           <Box display='flex' alignItems='center'>
           <DashboardText loading={this.state.randomFact.loading} text={formatTickerString(this.props.stocks)} />
-          {/* <SyncIcon style={{marginLeft: '16px', width: '11px'}} /> TODO: Make this work */}
           </Box>
-          {this.props.image.loading
-            ? <Skeleton width={150} animation="wave" variant="rect" />
-            : <div> Photo by
-                <a href={this.props.image.value.source}> {this.props.image.value.attribution},</a> found on
-                <a href="http://unsplash.com"> Unsplash.com</a></div>}
+          <Clock enabled={true} />
+
+          
         </Rail>
       </Container>
     );

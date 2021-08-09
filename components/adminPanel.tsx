@@ -23,6 +23,7 @@ export default function AdminPanel(props: AdminPanelProps) {
 
   const [loggedIn, setLoginStatus] = React.useState(true); //TODO: change to false when your done dev'ing
   const [customDate, setCustomDate] = React.useState(false); 
+  const [selectedAdminKey, setSelectedAdminKey] = React.useState(null); 
 
   const handleChange = () => {
     setLoginStatus((prev) => !prev);
@@ -64,12 +65,12 @@ export default function AdminPanel(props: AdminPanelProps) {
     }
 
     return (
-      <React.Fragment>
+      <div>
       <TextField label="" onBlur={(e) => { updateValue(e.target.value) }} style={{width: '80px'}}/>
       <IconButton onClick={() => onBlur(key, value)}>
         <CheckIcon />
       </IconButton>
-      </React.Fragment>
+      </div>
     )
   }
 
@@ -83,12 +84,12 @@ export default function AdminPanel(props: AdminPanelProps) {
       }
 
     return (
-      <React.Fragment>
+      <div>
         <TextField label="" onBlur={(e) => { updateValue(e.target.value) }} />
         <IconButton onClick={() => onBlur(key, value)}>
           <CheckIcon />
         </IconButton>
-      </React.Fragment>
+      </div>
     )
   }
 
@@ -143,18 +144,18 @@ export default function AdminPanel(props: AdminPanelProps) {
     }
   
     return (
-      <Container>
+      <Container alignItems='center'>
        { customDate 
        ? <Container>
          <div>
-          <TextField
-          type="date"
-          onChange={(e) => handleDateChange(e.target.value)}
-          style={{ width: '160px' }}/>
-          <TextField label="" onBlur={(e) => { handleLabelChange(e.target.value) }}/>
+          <TextField label='Countdown Event' style={{marginLeft: '3rem'}} onBlur={(e) => { handleLabelChange(e.target.value) }}/>
           <IconButton onClick={() => onBlur('countdownLabel', customLabelValue)}>
           <CheckIcon />
         </IconButton>
+        <br />
+        <TextField
+          type="date"
+          onChange={(e) => handleDateChange(e.target.value)}/>
         </div> 
          </Container>
         : <ButtonGroup size="small" aria-label="small outlined button group">
@@ -181,6 +182,18 @@ export default function AdminPanel(props: AdminPanelProps) {
         return BigOne(key, onBlur, arrayLength)
     }
   }
+  const RenderHelpMessage = (key: string, arrayLength: number) => {
+    switch(key) {
+      case 'countdownLabel':
+        return <div>Choose a day and we'll count down together!</div>
+      case 'imageInspiration':
+        return <div>Choose a subject that you want to see pictures about. Pics come from unsplash.</div>
+      case 'subredditList':
+        return <div>You can choose up to 7 subreddits to browse. The first 25 posts are displayed.</div>
+      case 'tickerList':
+        return <div>You can choose up to 7 stocks to follow. They are updated almost never</div>
+    }
+  }
 
   const formatValue = (key: string, value: string): string => {
     if(key == 'subredditList')
@@ -190,6 +203,19 @@ export default function AdminPanel(props: AdminPanelProps) {
       return value.toUpperCase();
 
     return value;
+  }
+
+  const RenderAdminValues = (key: string, adminData) => {
+    if(!key) return
+
+    const data = adminData[key]
+    return (
+      <div style={{width: '80%', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+        <div>{ adminData[key].map((value: string, j: number) =><Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} key={j} size="small" label={formatValue(key, value)} />)}</div>
+        {SwitchOnDataType(key, addToList, adminData[key].length)}
+        {RenderHelpMessage(key, adminData[key].length)}
+      </div>
+      );
   }
 
   return (
@@ -205,21 +231,14 @@ export default function AdminPanel(props: AdminPanelProps) {
 
       { loggedIn && <div style={{ width: '100%', display: 'flex', flexFlow: 'wrap' }}>
 
-        {Object.keys(adminData).map((key: string, i) => {
-          if(key !== 'countdownDate') {
-            return (
-              <InputRow key={i} display='flex' alignItems='baseline' style={{ width: i % 2 !== 0 ? '30%' : '50%' }}>
-                <div style={{width: i % 2 !== 0 ? '35%' : '15%'}}>{key} :</div>
-                <div style={{display: adminData[key].length > 0 ? 'flex' : 'none', width: i % 2 !== 0 ? 'auto' : 'auto', flexWrap: 'wrap'}}>{ adminData[key].map((value, j) =><Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} key={j} size="small" label={formatValue(key, value)} />)}</div>
-                              
-                {SwitchOnDataType(key, addToList, adminData[key].length)}
-  
-              </InputRow>
-            )
-          }
-        })}
+      <ButtonGroup
+        size='small'
+        orientation="vertical"
+        variant="text">
+        {Object.keys(adminData).map( (data, i) => data === 'countdownDate' ? null : <Container><Button key={i} onClick={ ()=> setSelectedAdminKey(data)}>{data === selectedAdminKey ? '*'+data : data}</Button> </Container>)}
+      </ButtonGroup>
 
-
+      {RenderAdminValues(selectedAdminKey, adminData)}
       </div>}
     </Container>
   );

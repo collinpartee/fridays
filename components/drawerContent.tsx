@@ -32,7 +32,8 @@ const RightScrollButton = styled('div')({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: '1.5rem'
+    fontSize: '1.5rem',
+    bottom: '0'
 });
 
 type DrawerContentProps = {
@@ -76,16 +77,16 @@ export default function DrawerContent({ color, backgroundColor, data, visible }:
 
   var colors={text: color, backgroundColor: backgroundColor}
   return (
-    <Container style={{ height: visible ? '0' : '12em' }} ref={scrollArea}>
-      {!data && <AdminPanel/>}
-
+    <>
       {data && <LeftScrollButton onClick={() => sideScroll(scrollArea.current, 'left')}><NavigateBefore fontSize='large' style={{color: 'black'}} /> </LeftScrollButton>}
+    <Container style={{ height: visible ? '0' : '12em', width: '90%' }} ref={scrollArea}>
+      {!data && <AdminPanel/>}
 
       { data && data.subList.map((sub, i) => <Post color={color} backgroundColor={backgroundColor} openModal={handleOpen} key={i} data={sub} />)}
 
-      {data && <RightScrollButton onClick={() => sideScroll(scrollArea.current, 'right')}> <NavigateNext fontSize='large' style={{color: 'black'}} /> </RightScrollButton>}
-
       { selectedPost && <CustomModal data={selectedPost} visible={open} toggleOpen={handleClose} /> }
     </Container>
+      {data && <RightScrollButton onClick={() => sideScroll(scrollArea.current, 'right')}> <NavigateNext fontSize='large' style={{color: 'black'}} /> </RightScrollButton>}
+      </>
   );
 }
