@@ -54,7 +54,16 @@ Home.getInitialProps = async (ctx) => {
   if(!adminCookie) {
     adminCookie = {
       tickerList: ['CLOV'],
-      imageInspiration: ['country']
+      mainImage: {
+        inpsiration: 'beaches',
+        url: 'https://images.unsplash.com/photo-1485248803654-ff245e4ec08c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0OTAyMnwwfDF8cmFuZG9tfHx8fHx8fHx8MTYyNjE0NTkzMg&ixlib=rb-1.2.1&q=80&w=1080',
+        credits: 'seefromthesky',
+        backgroundColor: "#bf8ca6",
+        textColor: "#407359",
+        lastUpdated: 'Sun, 22 Aug 2021 17:13:01 GMT', // TODO: might not need this..
+        altDescription: "woman wearing white bikini set lying on white and brown unicorn inflatable float",
+        source: "https://unsplash.com/photos/iWYrCr8eGwU"
+    },
     }
   }
 
@@ -62,10 +71,10 @@ Home.getInitialProps = async (ctx) => {
 
   if(!imageCookie) {
     // Only have 50 requests/hour. https://unsplash.com/documentation#rate-limiting
-    var imageUrl: UnsplashData = await Services.getImage(adminCookie.imageInspiration[0]); 
+    var imageUrl: UnsplashData = await Services.getImage(adminCookie.mainImage.inspiration); 
     imageCookie = {
       imageUrl: imageUrl,
-      inspiration: adminCookie.imageInspiration
+      inspiration: adminCookie.mainImage.inspiration
     }
     var expireTime = new Date(); 
     expireTime.setMinutes(expireTime.getMinutes() + 30);

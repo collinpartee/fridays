@@ -20,6 +20,17 @@ type AppAdminData = {
     subredditList: string[],
     countdownLabel: string[], // array of 1 item
     tickerList: string[],
-    imageInspiration: string[], // array of 1 item
+    mainImage: MainImage,
     countdownDate: string[], // array of 1 item
+}
+
+type MainImage = {
+    inpsiration: string,
+    url: string,
+    source: string,
+    credits: string,
+    backgroundColor:string,
+    textColor:string,
+    altDescription:string,
+    lastUpdated: string // TODO: might not need this..
 }

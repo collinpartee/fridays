@@ -33,8 +33,9 @@ export default function AdminPanel(props: AdminPanelProps) {
     switch(key) {
       case 'countdownLabel':
       case 'countdownDate':
-      case 'imageInspiration':
-        adminData[key] = []
+      case 'mainImage':
+        adminData.mainImage.url = '';
+        adminData.mainImage.inpsiration = '';
         console.log('removeFromList', adminData);
         updateData(adminData)
         break;
@@ -48,15 +49,19 @@ export default function AdminPanel(props: AdminPanelProps) {
   
   const addToList = (key: string, value: string) => {
     if (value.length == 0) return
-    
+
     var _adminData: AppAdminData = Object.assign({}, adminData)
 
-    _adminData[key].push(value)
-    updateData(_adminData)
+    if(Array.isArray(_adminData[key])) {
+      _adminData[key].push(value)
+      updateData(_adminData)
+    } else if (key == 'mainImage') {
+      _adminData.mainImage.inpsiration = value
+      updateData(_adminData)
+    }
   }
 
-  const BigOne = (key: string, onBlur: Function, arrayLength: number) => {
-    if(arrayLength >= 7) return;
+  const MultiInput = (key: string, onBlur: Function) => {
 
     var value = '';
 
@@ -74,8 +79,7 @@ export default function AdminPanel(props: AdminPanelProps) {
     )
   }
 
-  const SmallOne = (key: string, onBlur: Function, arrayLength: number) => {
-    if(arrayLength > 0) return;
+  const SingleInput = (key: string, onBlur: Function) => {
 
       var value = '';
 
@@ -93,8 +97,7 @@ export default function AdminPanel(props: AdminPanelProps) {
     )
   }
 
-  const CountdownInput = (key: string, onBlur: Function, arrayLength: number) => {
-    if(arrayLength > 0) return;
+  const CountdownInput = (key: string, onBlur: Function) => {
 
     let customLabelValue = '';
 
@@ -170,23 +173,36 @@ export default function AdminPanel(props: AdminPanelProps) {
     )
   }
 
-  const SwitchOnDataType = (key: string, onBlur: Function, arrayLength: number) => {
+  const DisplayChips = (key: string, data: AppAdminData) => {
+    var isArrayType = Array.isArray(data[key]);
+    if(isArrayType) {
+      return data[key].map((value: string, j: number) => <Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} key={j} size="small" label={formatValue(key, value)} />)
+    } else if(key == 'mainImage') {
+      let value = data.mainImage.inpsiration;
+      return <Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} size="small" label={formatValue(key, value)} />
+    }
+
+    return (<div>not an array. need to handle this.</div>)
+  }
+
+  const DisplayInputs = (key: string, onBlur: Function) => {
     switch(key) {
       case 'countdownLabel':
         // removeFromList('countdownDate')
-        return CountdownInput(key, onBlur, arrayLength)
-      case 'imageInspiration':
-        return SmallOne(key, onBlur, arrayLength)
+        return CountdownInput(key, onBlur)
+      case 'mainImage':
+        return SingleInput(key, onBlur)
       case 'subredditList':
       case 'tickerList':
-        return BigOne(key, onBlur, arrayLength)
+        return MultiInput(key, onBlur)
     }
   }
+
   const RenderHelpMessage = (key: string, arrayLength: number) => {
     switch(key) {
       case 'countdownLabel':
         return <div>Choose a day and we'll count down together!</div>
-      case 'imageInspiration':
+      case 'mainImage':
         return <div>Choose a subject that you want to see pictures about. Pics come from unsplash.</div>
       case 'subredditList':
         return <div>You can choose up to 7 subreddits to browse. The first 25 posts are displayed.</div>
@@ -211,8 +227,10 @@ export default function AdminPanel(props: AdminPanelProps) {
     const data = adminData[key]
     return (
       <div style={{width: '80%', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-        <div>{ adminData[key].map((value: string, j: number) =><Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} key={j} size="small" label={formatValue(key, value)} />)}</div>
-        {SwitchOnDataType(key, addToList, adminData[key].length)}
+        <div>
+          { DisplayChips(key, adminData)}
+        </div>
+        {DisplayInputs(key, addToList)}
         {RenderHelpMessage(key, adminData[key].length)}
       </div>
       );
@@ -235,7 +253,10 @@ export default function AdminPanel(props: AdminPanelProps) {
         size='small'
         orientation="vertical"
         variant="text">
-        {Object.keys(adminData).map( (data, i) => data === 'countdownDate' ? null : <Container><Button key={i} onClick={ ()=> setSelectedAdminKey(data)}>{data === selectedAdminKey ? '*'+data : data}</Button> </Container>)}
+        {Object.keys(adminData).map( (data, i) => data === 'countdownDate' 
+        ? null 
+        : <Button key={i} onClick={ ()=> setSelectedAdminKey(data)}> { data === selectedAdminKey ? '*'+data : data } 
+            </Button>)}
       </ButtonGroup>
 
       {RenderAdminValues(selectedAdminKey, adminData)}
