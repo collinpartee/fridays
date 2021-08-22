@@ -14,8 +14,7 @@ const H6 = styled('h6')({
 });
 
 type CountdownProps = {
-  date: string,
-  label: string,
+  data: Countdown,
   textColor: string
 };
 
@@ -26,27 +25,28 @@ var loading = true;
 // }, 2000);
 
 
-export const Countdown = ({ date, label, textColor }: CountdownProps) => {
-  if(!label)
+export const Countdown = ({ data, textColor }: CountdownProps) => {
+  if(!data.label)
     return null
+
   return  (
     <Box display="flex" alignItems='center'>
       {/* {loading
         ? <Skeleton width={210} height={72} animation="wave" variant="rect" />
         : <> */}
           <Typography variant="h2">
-            {date}
+            {data.date}
           </Typography>
           <Box display="flex" flexDirection="column" alignItems='center' padding='0 8px'>
             <H6>
-              {date != '1' ? 'days' : 'day'}
+              {data.date != '1' ? 'days' : 'day'}
           </H6>
             <H6>
               till
           </H6>
           </Box>
           <Typography variant="h2">
-            {label}
+            {data.label}
           </Typography>
         {/* </>} */}
     </Box>);

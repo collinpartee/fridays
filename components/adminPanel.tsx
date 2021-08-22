@@ -22,7 +22,7 @@ export default function AdminPanel(props: AdminPanelProps) {
   const { adminData, updateData } = React.useContext(AppAdminContext) as ContextType
 
   const [loggedIn, setLoginStatus] = React.useState(true); //TODO: change to false when your done dev'ing
-  const [customDate, setCustomDate] = React.useState(false); 
+  const [customDate, setCustomDate] = React.useState(adminData.countdown.custom); 
   const [selectedAdminKey, setSelectedAdminKey] = React.useState(null); 
 
   const handleChange = () => {
@@ -31,8 +31,11 @@ export default function AdminPanel(props: AdminPanelProps) {
 
   const removeFromList = (key: string, value: string = '') => {  
     switch(key) {
-      case 'countdownLabel':
-      case 'countdownDate':
+      case 'countdown':
+        adminData.countdown.label = '';
+        console.log('removeFromList', adminData);
+        updateData(adminData)
+        break;
       case 'mainImage':
         adminData.mainImage.url = '';
         adminData.mainImage.inpsiration = '';
@@ -47,7 +50,7 @@ export default function AdminPanel(props: AdminPanelProps) {
     }
   }
   
-  const addToList = (key: string, value: string) => {
+  const addToList = (key: string, value: any) => {
     if (value.length == 0) return
 
     var _adminData: AppAdminData = Object.assign({}, adminData)
@@ -57,6 +60,12 @@ export default function AdminPanel(props: AdminPanelProps) {
       updateData(_adminData)
     } else if (key == 'mainImage') {
       _adminData.mainImage.inpsiration = value
+      updateData(_adminData)
+    } else if (key == 'countdown') {
+      _adminData.countdown = {
+        ..._adminData.countdown,
+        ...value
+      }
       updateData(_adminData)
     }
   }
@@ -103,45 +112,54 @@ export default function AdminPanel(props: AdminPanelProps) {
 
     function megaBlur(key: string, day: string): void {
       let daysTill = '';
-      removeFromList('countdownLabel')
-      removeFromList('countdownDate')
+      let date = ''
+      removeFromList('countdown')
       switch(day) {
         case 'monday':
-          daysTill = Services.getCountdown('1');
+          date = '1';
+          daysTill = Services.getCountdown(date);
           break
         case 'tuesday':
-          daysTill = Services.getCountdown('2');
+          date = '2';
+          daysTill = Services.getCountdown(date);
           break
         case 'wednesday':
-          daysTill = Services.getCountdown('3');
+          date = '3';
+          daysTill = Services.getCountdown(date);
           break
         case 'thursday':
-          daysTill = Services.getCountdown('4');
+          date = '4';
+          daysTill = Services.getCountdown(date);
           break
         case 'friday':
-          daysTill = Services.getCountdown('5');
+          date = '5';
+          daysTill = Services.getCountdown(date);
           break
         case 'saturday':
-          daysTill = Services.getCountdown('6');
+          date = '6';
+          daysTill = Services.getCountdown(date);
           break
         case 'sunday':
-          daysTill = Services.getCountdown('7');
+          date = '';
+          daysTill = Services.getCountdown(date);
           break
       }
-      onBlur('countdownDate', daysTill)
-      onBlur('countdownLabel', day)
+      let data: Countdown = {date , label: day, custom: false, daysTill}
+      onBlur('countdown', data)
     }
 
     function handleCheckbox(e) {
       setCustomDate(e.target.checked)
+      //TODO: i think i need to call the on blur here...
     }
 
     function handleDateChange(e) {
-      removeFromList('countdownDate')
+      removeFromList('countdown')
       var daysTill = Services.getCountdown(e);
       console.log(daysTill)
-      onBlur('countdownDate', daysTill)
+      onBlur('countdown', {daysTill, label: customLabelValue, custom: true, date: e})
     }
+
     function handleLabelChange(value: string) {
       customLabelValue = value
     }
@@ -151,10 +169,10 @@ export default function AdminPanel(props: AdminPanelProps) {
        { customDate 
        ? <Container>
          <div>
-          <TextField label='Countdown Event' style={{marginLeft: '3rem'}} onBlur={(e) => { handleLabelChange(e.target.value) }}/>
-          <IconButton onClick={() => onBlur('countdownLabel', customLabelValue)}>
-          <CheckIcon />
-        </IconButton>
+          <TextField label='Countdown Label' style={{marginLeft: '3rem'}} onBlur={(e) => { handleLabelChange(e.target.value) }}/>
+          <IconButton onClick={() => onBlur('countdown', customLabelValue)}>
+            <CheckIcon />
+          </IconButton>
         <br />
         <TextField
           type="date"
@@ -180,6 +198,9 @@ export default function AdminPanel(props: AdminPanelProps) {
     } else if(key == 'mainImage') {
       let value = data.mainImage.inpsiration;
       return <Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} size="small" label={formatValue(key, value)} />
+    } else if(key == 'countdown') {
+      let value = data.countdown.label;
+      return <Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} size="small" label={formatValue(key, value)} />
     }
 
     return (<div>not an array. need to handle this.</div>)
@@ -187,35 +208,34 @@ export default function AdminPanel(props: AdminPanelProps) {
 
   const DisplayInputs = (key: string, onBlur: Function) => {
     switch(key) {
-      case 'countdownLabel':
-        // removeFromList('countdownDate')
+      case 'countdown':
         return CountdownInput(key, onBlur)
       case 'mainImage':
         return SingleInput(key, onBlur)
-      case 'subredditList':
-      case 'tickerList':
+      case 'subreddits':
+      case 'stocks':
         return MultiInput(key, onBlur)
     }
   }
 
   const RenderHelpMessage = (key: string, arrayLength: number) => {
     switch(key) {
-      case 'countdownLabel':
+      case 'countdown':
         return <div>Choose a day and we'll count down together!</div>
       case 'mainImage':
         return <div>Choose a subject that you want to see pictures about. Pics come from unsplash.</div>
-      case 'subredditList':
+      case 'subreddits':
         return <div>You can choose up to 7 subreddits to browse. The first 25 posts are displayed.</div>
-      case 'tickerList':
+      case 'stocks':
         return <div>You can choose up to 7 stocks to follow. They are updated almost never</div>
     }
   }
 
   const formatValue = (key: string, value: string): string => {
-    if(key == 'subredditList')
+    if(key == 'subreddits')
       return 'r/'+value;
 
-    if(key == 'tickerList')
+    if(key == 'stocks')
       return value.toUpperCase();
 
     return value;
@@ -253,10 +273,7 @@ export default function AdminPanel(props: AdminPanelProps) {
         size='small'
         orientation="vertical"
         variant="text">
-        {Object.keys(adminData).map( (data, i) => data === 'countdownDate' 
-        ? null 
-        : <Button key={i} onClick={ ()=> setSelectedAdminKey(data)}> { data === selectedAdminKey ? '*'+data : data } 
-            </Button>)}
+        {Object.keys(adminData).map( (data, i) => <Button key={i} onClick={ ()=> setSelectedAdminKey(data)}> { data === selectedAdminKey ? '*'+data : data } </Button>)}
       </ButtonGroup>
 
       {RenderAdminValues(selectedAdminKey, adminData)}

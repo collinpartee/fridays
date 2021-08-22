@@ -12,9 +12,14 @@ export default function TodoProvider({ children }: CountProviderProps) {
 
     if(!cookies.adminData) {
         var _adminData: AppAdminData = {
-            subredditList: ['memes'],
-            countdownLabel: ['friday'],
-            tickerList: ['CLOV'],
+            subreddits: ['memes'],
+            countdown: {
+                label: 'friday',
+                custom: false,
+                date: '5',
+                daysTill: '1'
+            },
+            stocks: ['CLOV'],
             mainImage: {
                 inpsiration: 'beaches',
                 url: 'https://images.unsplash.com/photo-1485248803654-ff245e4ec08c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0OTAyMnwwfDF8cmFuZG9tfHx8fHx8fHx8MTYyNjE0NTkzMg&ixlib=rb-1.2.1&q=80&w=1080',
@@ -25,11 +30,12 @@ export default function TodoProvider({ children }: CountProviderProps) {
                 altDescription: "woman wearing white bikini set lying on white and brown unicorn inflatable float",
                 source: "https://unsplash.com/photos/iWYrCr8eGwU"
             },
-            countdownDate: ['5'], 
         }
 
         cookies.adminData = _adminData;
     }
+
+    cookies.adminData.countdown.daysTill = Services.getCountdown(cookies.adminData.countdown.date)
     
     const [adminData, setAdminData] = React.useState<AppAdminData>({
         ...cookies.adminData

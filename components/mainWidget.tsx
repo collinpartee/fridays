@@ -29,8 +29,6 @@ interface MyProps {
 };
 
 interface MyState {
-  countdownLabel: DashboardData;
-  countdownDate: DashboardData;
   randomFact: DashboardData;
 };
 
@@ -44,16 +42,13 @@ export default class App extends React.Component<MyProps, MyState> {
   constructor(props) {
     super(props);
     this.state = {
-      randomFact: new DashboardData(),
-      countdownDate: new DashboardData(),
-      countdownLabel: new DashboardData(),
+      randomFact: new DashboardData()
     };
   }
 
   async componentDidMount() {
     let { adminData } = this.context;
     await this.getRandomFact();
-    // await this.getCountdown(adminData.countdownDate[0]);
   }
 
   componentWillUnmount() { }
@@ -64,19 +59,13 @@ export default class App extends React.Component<MyProps, MyState> {
     this.setState({ randomFact: randomFact });
   }
 
-  // async getCountdown(day: string): Promise<void> {
-  //   var daysTill = await Services.getCountdown(day);
-  //   var countdownDate: DashboardData = { value: daysTill, loading: false }
-  //   this.setState({ countdownDate: countdownDate });
-  // }
-
   render() {
     let { adminData } = this.context;
     return (
       <Container maxWidth="lg" style={{ padding: '4%' }}>
         <Rail alignItems='flex-end'>
           <DashboardText loading={this.state.randomFact.loading} text={this.state.randomFact.value} />
-          <Countdown label={adminData.countdownLabel} date={adminData.countdownDate[0]} textColor={this.props.image.value.textColor} />
+          <Countdown data={adminData.countdown} textColor={this.props.image.value.textColor} />
         </Rail>
 
         <div style={{display: 'flex'}}>

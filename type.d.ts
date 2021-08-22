@@ -17,11 +17,10 @@ type ContextType = {
 }
 
 type AppAdminData = {
-    subredditList: string[],
-    countdownLabel: string[], // array of 1 item
-    tickerList: string[],
+    subreddits: string[],
+    countdown: Countdown,
+    stocks: string[],
     mainImage: MainImage,
-    countdownDate: string[], // array of 1 item
 }
 
 type MainImage = {
@@ -33,4 +32,11 @@ type MainImage = {
     textColor:string,
     altDescription:string,
     lastUpdated: string // TODO: might not need this..
+}
+
+type Countdown = {
+    label: string,
+    custom: boolean,
+    date: string,
+    daysTill: string
 }

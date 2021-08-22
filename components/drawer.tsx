@@ -111,7 +111,7 @@ export default class Drawer extends React.Component<MyProps, MyState> {
                 open me
               </DrawerButton>
             {
-              adminData.subredditList && adminData.subredditList.map((subName, i) => {
+              adminData.subreddits && adminData.subreddits.map((subName, i) => {
                 return ( <AniTab key={i}><DrawerButton onClick={() => this.getSubData(subName)} style={{backgroundColor:this.getBackgroundColor(subName), color: this.getTextColor(subName)}}>{subName}</DrawerButton> </AniTab>)})
             }
             { this.state.isVisible && <Close onClick={() => this.toggleDrawer(false)}>Close</Close> }
