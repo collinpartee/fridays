@@ -7,7 +7,7 @@ import AdminPanel from './adminPanel';
 import { NavigateNext, NavigateBefore } from '@material-ui/icons';
 
 const Container = styled('div')({
-  overflow: 'scroll',
+  overflowX: 'scroll',
   margin: '0 auto',
   display:"flex",
    alignItems: 'center'
