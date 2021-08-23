@@ -60,7 +60,9 @@ export function ThemeSwitch ({onChange, color, secondColor}: ThemeSwitchProps) {
 
   return (
     <div style={{position: 'absolute', top: '8px', right: 24, display: 'flex'}}>
-      <Typography
+      <input id="toggle" className='toggle' type="checkbox" onClick={handleChange}></input>
+      {/* //TODO: add hover over with color codes */}
+      {/* <Typography
         aria-owns={mainColorOpen ? 'main-color-popover' : undefined}
         aria-haspopup="true"
         onMouseEnter={handleOpenMainColor}
@@ -112,7 +114,7 @@ export function ThemeSwitch ({onChange, color, secondColor}: ThemeSwitchProps) {
         }}
       >
         <Typography className={classes.typography}>{secondColor}</Typography>
-      </Popover>
+      </Popover> */}
   </div>
   );
 }

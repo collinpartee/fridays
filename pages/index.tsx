@@ -9,14 +9,13 @@ import DashboardData from '../models/DashboardData';
 import { ThemeSwitch } from '../components/themeSwitch';
 import TodoProvider from '../context/appAdminContext';
 import Cookies from 'cookies'
+
 function Home({ stockData, imageData }) {
   const [reverse, setReverse] = React.useState(true);
 
   const handleChange = (e) => {
     setReverse((prev) => e);
   };
-
-  
 
   return (
     <TodoProvider>
@@ -55,18 +54,12 @@ Home.getInitialProps = async (ctx) => {
     adminCookie = {
       stocks: ['CLOV', 'MSFT', 'AAPL'],
       mainImage: {
-        inspiration: 'beaches',
-        // url: 'https://images.unsplash.com/photo-1485248803654-ff245e4ec08c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0OTAyMnwwfDF8cmFuZG9tfHx8fHx8fHx8MTYyNjE0NTkzMg&ixlib=rb-1.2.1&q=80&w=1080',
-        // credits: 'seefromthesky',
-        // backgroundColor: "#bf8ca6",
-        // textColor: "#407359",
-        // lastUpdated: 'Sun, 22 Aug 2021 17:13:01 GMT', // TODO: might not need this..
-        // altDescription: "woman wearing white bikini set lying on white and brown unicorn inflatable float",
-        // source: "https://unsplash.com/photos/iWYrCr8eGwU"
+        inspiration: 'beaches'
     },
     }
   }
 
+  //TODO: find a better stock api
   var stockData = await Services.getStonks(adminCookie.stocks);
 
   console.log(imageCookie)
@@ -107,23 +100,4 @@ function formatCookie(cookie: string) {
   response = JSON.parse(response)
 
   return response
-}
-
-
-var defaultPicture2: UnsplashData = {
-  alt_description: "woman wearing white bikini set lying on white and brown unicorn inflatable float",
-  attribution: "seefromthesky",
-  backgroundColor: "#bf8ca6",
-  source: "https://unsplash.com/photos/iWYrCr8eGwU",
-  textColor: "#407359",
-  uri: "https://images.unsplash.com/photo-1485248803654-ff245e4ec08c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0OTAyMnwwfDF8cmFuZG9tfHx8fHx8fHx8MTYyNjE0NTkzMg&ixlib=rb-1.2.1&q=80&w=1080"
-}
-
-var defaultPicture: UnsplashData = {
-  alt_description: "green palm tree on seashore during daytime",
-  attribution: "raimondklavins",
-  backgroundColor: "#3f2626",
-  source: "https://unsplash.com/photos/TC4GFhpvqGc",
-  textColor: "#c0d9d9",
-  uri: "https://images.unsplash.com/photo-1613332954647-eb09cbc87afc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0OTAyMnwwfDF8cmFuZG9tfHx8fHx8fHx8MTYyNjA2NzU0MA&ixlib=rb-1.2.1&q=80&w=1080"
 }

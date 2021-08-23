@@ -219,6 +219,7 @@ export default function AdminPanel(props: AdminPanelProps) {
   }
 
   const RenderHelpMessage = (key: string, arrayLength: number) => {
+    //TODO: limit subreddits and stocks to 7
     switch(key) {
       case 'countdown':
         return <div>Choose a day and we'll count down together!</div>
@@ -269,11 +270,13 @@ export default function AdminPanel(props: AdminPanelProps) {
 
       { loggedIn && <div style={{ width: '100%', display: 'flex', flexFlow: 'wrap' }}>
 
+{/* //TODO: better ui when button is selected */}
       <ButtonGroup
         size='small'
         orientation="vertical"
-        variant="text">
-        {Object.keys(adminData).map( (data, i) => <Button key={i} onClick={ ()=> setSelectedAdminKey(data)}> { data === selectedAdminKey ? '*'+data : data } </Button>)}
+        variant="text"
+        style={{width: '20%'}}>
+        {Object.keys(adminData).map( (data, i) => <Button key={i} style={{color: 'inherit'}} onClick={ ()=> setSelectedAdminKey(data)}> { data === selectedAdminKey ? '*'+data : data } </Button>)}
       </ButtonGroup>
 
       {RenderAdminValues(selectedAdminKey, adminData)}
