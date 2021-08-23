@@ -35,11 +35,11 @@ export const Countdown = ({ data, textColor }: CountdownProps) => {
         ? <Skeleton width={210} height={72} animation="wave" variant="rect" />
         : <> */}
           <Typography variant="h2">
-            {data.date}
+            {data.daysTill}
           </Typography>
           <Box display="flex" flexDirection="column" alignItems='center' padding='0 8px'>
             <H6>
-              {data.date != '1' ? 'days' : 'day'}
+              {data.daysTill != '1' ? 'days' : 'day'}
           </H6>
             <H6>
               till
