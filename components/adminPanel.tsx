@@ -36,9 +36,9 @@ export default function AdminPanel(props: AdminPanelProps) {
         console.log('removeFromList', adminData);
         updateData(adminData)
         break;
-      case 'mainImage':
-        adminData.mainImage.url = '';
-        adminData.mainImage.inpsiration = '';
+      case 'image':
+        adminData.image.url = '';
+        adminData.image.inpsiration = '';
         console.log('removeFromList', adminData);
         updateData(adminData)
         break;
@@ -58,8 +58,8 @@ export default function AdminPanel(props: AdminPanelProps) {
     if(Array.isArray(_adminData[key])) {
       _adminData[key].push(value)
       updateData(_adminData)
-    } else if (key == 'mainImage') {
-      _adminData.mainImage.inpsiration = value
+    } else if (key == 'image') {
+      _adminData.image.inpsiration = value
       updateData(_adminData)
     } else if (key == 'countdown') {
       _adminData.countdown = {
@@ -80,7 +80,7 @@ export default function AdminPanel(props: AdminPanelProps) {
 
     return (
       <div>
-      <TextField label="" onBlur={(e) => { updateValue(e.target.value) }} style={{width: '80px'}}/>
+      <TextField label="" onBlur={(e) => { updateValue(e.target.value) }}/>
       <IconButton onClick={() => onBlur(key, value)}>
         <CheckIcon />
       </IconButton>
@@ -150,7 +150,6 @@ export default function AdminPanel(props: AdminPanelProps) {
 
     function handleCheckbox(e) {
       setCustomDate(e.target.checked)
-      //TODO: i think i need to call the on blur here...
     }
 
     function handleDateChange(e) {
@@ -165,10 +164,10 @@ export default function AdminPanel(props: AdminPanelProps) {
     }
   
     return (
-      <Container alignItems='center'>
+      <Box style={{display: 'flex', justifyContent: 'center', flexDirection: 'row', alignItems: 'baseline'}}>
        { customDate 
-       ? <Container>
-         <div>
+       ? <div>
+         <div style={{display: 'flex', alignItems: 'baseline', marginRight: '5%'}}>
           <TextField label='Countdown Label' style={{marginLeft: '3rem'}} onBlur={(e) => { handleLabelChange(e.target.value) }}/>
           <IconButton onClick={() => onBlur('countdown', customLabelValue)}>
             <CheckIcon />
@@ -178,29 +177,29 @@ export default function AdminPanel(props: AdminPanelProps) {
           type="date"
           onChange={(e) => handleDateChange(e.target.value)}/>
         </div> 
-         </Container>
-        : <ButtonGroup size="small" aria-label="small outlined button group">
+         </div>
+        : <><ButtonGroup style={{ padding: '1%'}} size="small" aria-label="small outlined button group">
             <Button onClick={() => megaBlur(key, "monday")}>M</Button>
             <Button onClick={() => megaBlur(key, 'tuesday')}>T</Button>
             <Button onClick={() => megaBlur(key, 'wednesday')}>W</Button>
             <Button onClick={() => megaBlur(key, 'thursday')}>Th</Button>
             <Button onClick={() => megaBlur(key, 'friday')}>F</Button>
-          </ButtonGroup> }
-        <div><Checkbox size="small" checked={customDate} onChange={handleCheckbox}/> Custom Date</div>
-      </Container>
+          </ButtonGroup> <div style={{padding: '0 8px'}}>or</div> </>}
+        <div><Checkbox size="small" checked={customDate} onChange={handleCheckbox}/>Custom Date</div>
+      </Box>
     )
   }
 
   const DisplayChips = (key: string, data: AppAdminData) => {
     var isArrayType = Array.isArray(data[key]);
     if(isArrayType) {
-      return data[key].map((value: string, j: number) => <Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} key={j} size="small" label={formatValue(key, value)} />)
-    } else if(key == 'mainImage') {
-      let value = data.mainImage.inpsiration;
-      return <Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} size="small" label={formatValue(key, value)} />
+      return data[key].map((value: string, j: number) => <Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} key={j} label={formatValue(key, value)} />)
+    } else if(key == 'image') {
+      let value = data.image.inpsiration;
+      return <Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} label={formatValue(key, value)} />
     } else if(key == 'countdown') {
       let value = data.countdown.label;
-      return <Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} size="small" label={formatValue(key, value)} />
+      return <Chip style={{ margin: '2px 4px' }} onDelete={() => removeFromList(key, value)} label={formatValue(key, value)} />
     }
 
     return (<div>not an array. need to handle this.</div>)
@@ -210,7 +209,7 @@ export default function AdminPanel(props: AdminPanelProps) {
     switch(key) {
       case 'countdown':
         return CountdownInput(key, onBlur)
-      case 'mainImage':
+      case 'image':
         return SingleInput(key, onBlur)
       case 'subreddits':
       case 'stocks':
@@ -223,12 +222,12 @@ export default function AdminPanel(props: AdminPanelProps) {
     switch(key) {
       case 'countdown':
         return <div>Choose a day and we'll count down together!</div>
-      case 'mainImage':
+      case 'image':
         return <div>Choose a subject that you want to see pictures about. Pics come from unsplash.</div>
       case 'subreddits':
         return <div>You can choose up to 7 subreddits to browse. The first 25 posts are displayed.</div>
       case 'stocks':
-        return <div>You can choose up to 7 stocks to follow. They are updated almost never</div>
+        return <div>You can choose up to 7 stocks to follow</div>
     }
   }
 
@@ -243,11 +242,11 @@ export default function AdminPanel(props: AdminPanelProps) {
   }
 
   const RenderAdminValues = (key: string, adminData) => {
-    if(!key) return
+    if(!key) return <div style={{ position: 'relative', top: '100%', right: '20%' }}>Choose a category above to customize your experience</div>
 
     const data = adminData[key]
     return (
-      <div style={{width: '80%', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+      <div style={{width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
         <div>
           { DisplayChips(key, adminData)}
         </div>
@@ -258,7 +257,7 @@ export default function AdminPanel(props: AdminPanelProps) {
   }
 
   return (
-    <Container alignItems={loggedIn ? 'flex-start' : 'center'}>
+    <Container alignItems={loggedIn ? 'flex-start' : 'center'} style={{height: '11em'}}>
       {!loggedIn && <><Typography variant='h4'>
         Welcome!
         </Typography>
@@ -270,14 +269,10 @@ export default function AdminPanel(props: AdminPanelProps) {
 
       { loggedIn && <div style={{ width: '100%', display: 'flex', flexFlow: 'wrap' }}>
 
-{/* //TODO: better ui when button is selected */}
-      <ButtonGroup
-        size='small'
-        orientation="vertical"
-        variant="text"
-        style={{width: '20%'}}>
-        {Object.keys(adminData).map( (data, i) => <Button key={i} style={{color: 'inherit'}} onClick={ ()=> setSelectedAdminKey(data)}> { data === selectedAdminKey ? '*'+data : data } </Button>)}
-      </ButtonGroup>
+      <div
+        style={{paddingBottom: '3%', border: 'none'}}>
+        {Object.keys(adminData).map( (data, i) => <Button key={i} style={{color: 'inherit', borderBottom: data === selectedAdminKey ? '1px solid' : 'none'}} onClick={ ()=> setSelectedAdminKey(data)}> { data } </Button>)}
+      </div>
 
       {RenderAdminValues(selectedAdminKey, adminData)}
       </div>}

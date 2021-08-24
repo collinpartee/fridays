@@ -53,24 +53,22 @@ Home.getInitialProps = async (ctx) => {
   if(!adminCookie) {
     adminCookie = {
       stocks: ['CLOV', 'MSFT', 'AAPL'],
-      mainImage: {
+      image: {
         inspiration: 'beaches'
     },
     }
   }
 
-  //TODO: find a better stock api
   var stockData = await Services.getStonks(adminCookie.stocks);
+  console.log(stockData)
 
-  console.log(imageCookie)
   if(!imageCookie) {
     // Only have 50 requests/hour. https://unsplash.com/documentation#rate-limiting
-    var imageUrl: UnsplashData = await Services.getImage(adminCookie.mainImage.inspiration); 
+    var imageUrl: UnsplashData = await Services.getImage(adminCookie.image.inspiration); 
     imageCookie = {
       imageUrl: imageUrl,
-      inspiration: adminCookie.mainImage.inspiration
+      inspiration: adminCookie.image.inspiration
     }
-  console.log(imageCookie)
 
     var expireTime = new Date(); 
     expireTime.setMinutes(expireTime.getMinutes() + 30);

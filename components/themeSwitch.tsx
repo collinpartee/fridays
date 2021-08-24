@@ -60,7 +60,7 @@ export function ThemeSwitch ({onChange, color, secondColor}: ThemeSwitchProps) {
 
   return (
     <div style={{position: 'absolute', top: '8px', right: 24, display: 'flex'}}>
-      <input id="toggle" className='toggle' type="checkbox" onClick={handleChange}></input>
+      <input id="toggle" className='toggle' type="checkbox" onClick={handleChange} style={{color: color}}></input>
       {/* //TODO: add hover over with color codes */}
       {/* <Typography
         aria-owns={mainColorOpen ? 'main-color-popover' : undefined}

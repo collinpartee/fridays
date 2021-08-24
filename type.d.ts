@@ -20,7 +20,7 @@ type AppAdminData = {
     subreddits: string[],
     countdown: Countdown,
     stocks: string[],
-    mainImage: MainImage,
+    image: MainImage,
 }
 
 type MainImage = {

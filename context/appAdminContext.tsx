@@ -12,15 +12,15 @@ export default function TodoProvider({ children }: CountProviderProps) {
 
     if(!cookies.adminData) {
         var _adminData: AppAdminData = {
-            subreddits: ['memes'],
+            subreddits: ['memes', 'blackpeopletwitter', 'funny', 'nextfuckinglevel', 'aww', 'earthporn'],
             countdown: {
                 label: 'friday',
                 custom: false,
                 date: '5',
                 daysTill: '1'
             },
-            stocks: ['CLOV'],
-            mainImage: {
+            stocks: ['CLOV', 'MSFT', 'AAPL', 'RBLX'],
+            image: {
                 inpsiration: 'beaches',
                 url: 'https://images.unsplash.com/photo-1485248803654-ff245e4ec08c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0OTAyMnwwfDF8cmFuZG9tfHx8fHx8fHx8MTYyNjE0NTkzMg&ixlib=rb-1.2.1&q=80&w=1080',
                 credits: 'seefromthesky',

@@ -108,7 +108,7 @@ export default class Drawer extends React.Component<MyProps, MyState> {
       <SlidingDrawer pose={!this.state.isVisible ? 'visible' : 'hidden'}>
           <ButtonBar display='flex' alignItems='center'>
               <DrawerButton onClick={() => this.toggleDrawer(true)} style={{backgroundColor: this.getBackgroundColor(null), color: this.getTextColor(null)}}>
-                open me
+                settings
               </DrawerButton>
             {
               adminData.subreddits && adminData.subreddits.map((subName, i) => {
