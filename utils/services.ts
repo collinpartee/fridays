@@ -65,7 +65,7 @@ async function GetRedditFeed(subredditName: string): Promise<Subreddits>{
 
 function GetCountdown(day: string): string {
   var daysTill = 0;
-  console.log('countdown Day: ', day)
+  // console.log('countdown Day: ', day)
   const TODAY = new Date();
 
   const customDay = day.indexOf('-') > -1

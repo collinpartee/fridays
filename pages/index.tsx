@@ -19,19 +19,28 @@ function Home({ stockData, imageData }) {
 
   return (
     <TodoProvider>
-      <ThemeSwitch onChange={handleChange} color={reverse ? imageData.value.backgroundColor : checkColor(imageData.value.textColor)} secondColor={!reverse ? imageData.value.backgroundColor : checkColor(imageData.value.textColor)} />
-    <div className="findme" style={{ height: '100vh', 
-                                    backgroundColor: reverse ? checkColor(imageData.value.textColor) : imageData.value.backgroundColor, 
-                                    color: reverse ? imageData.value.backgroundColor : checkColor(imageData.value.textColor),
-                                    transition: 'all .5s ease-out' }}>
+      <ThemeSwitch 
+        onChange={handleChange} 
+        color={reverse ? imageData.value.backgroundColor : checkColor(imageData.value.textColor)} 
+        secondColor={!reverse ? imageData.value.backgroundColor : checkColor(imageData.value.textColor)} />
+    <div 
+      className="findme" 
+      style={{ height: '100vh', 
+              backgroundColor: reverse ? checkColor(imageData.value.textColor) : imageData.value.backgroundColor, 
+              color: reverse ? imageData.value.backgroundColor : checkColor(imageData.value.textColor),
+              transition: 'all .5s ease-out' }}>
+
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <App stocks={stockData} image={imageData}/>
+        <App 
+          stocks={stockData} 
+          image={imageData}/>
       </main>
+
       <Drawer 
         backgroundColor={reverse ? checkColor(imageData.value.textColor) : imageData.value.backgroundColor}
         color={reverse ? imageData.value.backgroundColor : checkColor(imageData.value.textColor)} />
@@ -49,7 +58,7 @@ Home.getInitialProps = async (ctx) => {
   var imageCookie = cookies.get('imageData')
   adminCookie = formatCookie(adminCookie)
   imageCookie = imageCookie ? JSON.parse(imageCookie) : imageCookie
-
+  console.log(adminCookie)
   if(!adminCookie) {
     adminCookie = {
       stocks: ['CLOV', 'MSFT', 'AAPL'],
@@ -60,7 +69,7 @@ Home.getInitialProps = async (ctx) => {
   }
 
   var stockData = await Services.getStonks(adminCookie.stocks);
-  console.log(stockData)
+  // console.log(stockData)
 
   if(!imageCookie) {
     // Only have 50 requests/hour. https://unsplash.com/documentation#rate-limiting
