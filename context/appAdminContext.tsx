@@ -34,7 +34,6 @@ export default function TodoProvider({ children }: CountProviderProps) {
 
         cookies.adminData = _adminData;
     }
-
     cookies.adminData.countdown.daysTill = Services.getCountdown(cookies.adminData.countdown.date)
     
     const [adminData, setAdminData] = React.useState<AppAdminData>({

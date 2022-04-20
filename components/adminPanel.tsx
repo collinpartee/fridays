@@ -106,7 +106,7 @@ export default function AdminPanel(props: AdminPanelProps) {
     )
   }
 
-  const CountdownInput = (key: string, onBlur: Function) => {
+  const CountdownInput = (key: string, onBlur: Function, data: AppAdminData) => {
 
     let customLabelValue = '';
 
@@ -117,33 +117,27 @@ export default function AdminPanel(props: AdminPanelProps) {
       switch(day) {
         case 'monday':
           date = '1';
-          daysTill = Services.getCountdown(date);
           break
         case 'tuesday':
           date = '2';
-          daysTill = Services.getCountdown(date);
           break
         case 'wednesday':
           date = '3';
-          daysTill = Services.getCountdown(date);
           break
         case 'thursday':
           date = '4';
-          daysTill = Services.getCountdown(date);
           break
         case 'friday':
           date = '5';
-          daysTill = Services.getCountdown(date);
           break
         case 'saturday':
           date = '6';
-          daysTill = Services.getCountdown(date);
           break
         case 'sunday':
           date = '';
-          daysTill = Services.getCountdown(date);
           break
-      }
+        }
+      daysTill = Services.getCountdown(date);
       let data: Countdown = {date , label: day, custom: false, daysTill}
       onBlur('countdown', data)
     }
@@ -153,14 +147,13 @@ export default function AdminPanel(props: AdminPanelProps) {
     }
 
     function handleDateChange(e) {
-      removeFromList('countdown')
       var daysTill = Services.getCountdown(e);
-      console.log(daysTill)
-      onBlur('countdown', {daysTill, label: customLabelValue, custom: true, date: e})
+      onBlur('countdown', {daysTill, custom: true, date: e})
     }
 
     function handleLabelChange(value: string) {
       customLabelValue = value
+      onBlur('countdown', {label: customLabelValue, custom: true})
     }
   
     return (
@@ -169,12 +162,10 @@ export default function AdminPanel(props: AdminPanelProps) {
        ? <div>
          <div style={{display: 'flex', alignItems: 'baseline', marginRight: '5%'}}>
           <TextField label='Countdown Label' style={{marginLeft: '3rem'}} onBlur={(e) => { handleLabelChange(e.target.value) }}/>
-          <IconButton onClick={() => onBlur('countdown', customLabelValue)}>
-            <CheckIcon />
-          </IconButton>
         <br />
         <TextField
           type="date"
+          defaultValue={data.countdown.date}
           onChange={(e) => handleDateChange(e.target.value)}/>
         </div> 
          </div>
@@ -205,10 +196,10 @@ export default function AdminPanel(props: AdminPanelProps) {
     return (<div>not an array. need to handle this.</div>)
   }
 
-  const DisplayInputs = (key: string, onBlur: Function) => {
+  const DisplayInputs = (key: string, onBlur: Function, data: AppAdminData) => {
     switch(key) {
       case 'countdown':
-        return CountdownInput(key, onBlur)
+        return CountdownInput(key, onBlur, data)
       case 'image':
         return SingleInput(key, onBlur)
       case 'subreddits':
@@ -250,7 +241,7 @@ export default function AdminPanel(props: AdminPanelProps) {
         <div>
           { DisplayChips(key, adminData)}
         </div>
-        {DisplayInputs(key, addToList)}
+        {DisplayInputs(key, addToList, adminData)}
         {RenderHelpMessage(key, adminData[key].length)}
       </div>
       );
