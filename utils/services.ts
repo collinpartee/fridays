@@ -20,15 +20,15 @@ async function GetCryptos(cryptoSymbol: string): Promise<string> {
 async function GetStonks(tickers: string[]): Promise<Stonk[]> {
   var result =[];
 
-  for (let index = 0; index < tickers.length; index++) {
-    const element = tickers[index];
-    // var stockData = await axios.get(`https://www.styvio.com/api/${element}`);
-    var stockData = await axios.get(`https://finnhub.io/api/v1/quote?symbol=${element}&token=sandbox_c4i5vliad3ifj3t4ri70`)
+  // for (let index = 0; index < tickers.length; index++) {
+  //   const element = tickers[index];
+  //   // var stockData = await axios.get(`https://www.styvio.com/api/${element}`);
+  //   var stockData = await axios.get(`https://finnhub.io/api/v1/quote?symbol=${element}&token=sandbox_c4i5vliad3ifj3t4ri70`)
 
-    var stock = new Stonk({...stockData.data, ticker: element});
-    result.push(stock);
+  //   var stock = new Stonk({...stockData.data, ticker: element});
+  //   result.push(stock);
     
-  }
+  // }
 
   return result;
 
